@@ -1,0 +1,18 @@
+<!doctype html><meta charset="utf-8"><title>Tiny Post</title>
+<style>body{margin:0;background:#191419;color:#fff;font:700 16px monospace;text-align:center}canvas{height:92vh}</style>
+<canvas id="c" width="1080" height="1920"></canvas><div>Arrow keys to walk, 1-7 to change the build</div>
+<script type="module">
+import { draw, walk } from './game.js';
+const g = c.getContext('2d'), keys = {};
+let day = 7, p = { x: 540, y: 1430, dir: 1 }, last = 0;
+onkeydown = (e) => { keys[e.key] = 1; if (e.key >= '1' && e.key <= '7') day = +e.key; };
+onkeyup = (e) => { keys[e.key] = 0; };
+requestAnimationFrame(function frame(ms) {
+  const s = Math.min(0.05, (ms - last) / 1000) * 560;
+  last = ms;
+  p = walk(p, ((keys.ArrowRight | 0) - (keys.ArrowLeft | 0)) * s, 0);
+  p = walk(p, 0, ((keys.ArrowDown | 0) - (keys.ArrowUp | 0)) * s);
+  draw(g, day, ms / 1000, p);
+  requestAnimationFrame(frame);
+});
+</script>

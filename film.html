@@ -1,0 +1,9 @@
+<!doctype html><meta charset="utf-8"><style>@font-face{font-family:JB;src:url(/font.ttf)}</style>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script type="module">
+import { film } from './film.js';
+await document.fonts.load('800 50px JB');
+const g = c.getContext('2d');
+window.shot = (v, q) => { film(g, v); return c.toDataURL('image/jpeg', q).split(',')[1]; };
+window.ready = 1;
+</script>
